@@ -105,7 +105,8 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                         if(dietPlans[i][j]=='T')
                             {max=max>Ti?max:Ti; temp=max;}
                         if(dietPlans[i][j]=='t')
-                            {max=max>ti?max:ti; temp=max;}// System.Console.WriteLine($"t {ti}");
+                            {max=max>ti?max:ti; temp=max;}
+                        // System.Console.WriteLine($"t {ti}");
                         //System.Console.WriteLine($" temp {temp} max{max}");
                     } 
                     if(dietPlans[i].Contains("fT")==true) 
@@ -119,7 +120,6 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
                 res[i]=temp;
             }
-            //System.Console.WriteLine($"res {string.Join(',',res)}");
             return res;
 
             //System.Console.WriteLine($" maxT {T} ,indx {Ti}\nmin {t} indx {ti}");
