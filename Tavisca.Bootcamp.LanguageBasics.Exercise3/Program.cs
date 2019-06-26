@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
+namespace c_
 {
-    public static class Program
+    class Program02
     {
         static void Main(string[] args)
         {
@@ -13,6 +13,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                 new[] { 5, 2 }, 
                 new[] { "P", "p", "C", "c", "F", "f", "T", "t" }, 
                 new[] { 1, 0, 1, 0, 0, 1, 1, 0 });
+    
             Test(
                 new[] { 3, 4, 1, 5 }, 
                 new[] { 2, 8, 5, 1 }, 
@@ -25,7 +26,8 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                 new[] { 93, 96, 13, 95, 98, 18, 59, 49, 86 }, 
                 new[] { "f", "Pt", "PT", "fT", "Cp", "C", "t", "", "cCp", "ttp", "PCFt", "P", "pCt", "cP", "Pc" }, 
                 new[] { 2, 6, 6, 2, 4, 4, 5, 0, 5, 5, 6, 6, 3, 5, 6 });
-            Console.ReadKey(true);
+            //Console.ReadKey(true);
+            
         }
 
         private static void Test(int[] protein, int[] carbs, int[] fat, string[] dietPlans, int[] expected)
@@ -42,88 +44,86 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
         {
             // Add your code here.
             int[] res=new int[dietPlans.Length];
-
-
+            //suffix i means index, letter means value
             int P = protein.Max(),p=protein.Min();
             int Pi = Array.IndexOf(protein,P),pi=Array.IndexOf(protein,p);   //or  Pi= protien.ToList().IndexOf(P);
             
-            int C = carbs.Max(),c=carbs.Min();
-            int Ci = Array.IndexOf(carbs,C),ci=Array.IndexOf(carbs,c); 
+            int C = carbs.Max(),c=carbs.Min();    //values
+            int Ci = Array.IndexOf(carbs,C),ci=Array.IndexOf(carbs,c); //indices
 
             int F = fat.Max(),f=fat.Min();
             int Fi = Array.IndexOf(fat,F),fi=Array.IndexOf(fat,f); 
 
-            int T,Ti,t,ti;
+            int T,Ti,t,ti,Flag=-1;
+            int Pcal=((P*5)+(carbs[Pi]*5)+(fat[Pi]*9)),Ccal=((protein[Ci]*5)+(C*5)+(fat[Ci]*9));
+            int pcal=((p*5)+(carbs[pi]*5)+(fat[pi]*9)),ccal=((protein[ci]*5)+(c*5)+(fat[ci]*9));
+
             //total highest calorie and index
-            if((P*5)+(carbs[Pi]*5)+(fat[Pi]*9)  == (protein[Ci]*5)+(C*5)+(fat[Ci]*9))
+            if(Pcal  == Ccal)
             {
-                T=((P*5)+(carbs[Pi]*5)+(fat[Pi]*9)); Ti=Pi>Ci?Ci:Pi;
+                T=Pcal; 
+                Ti=Pi>Ci?Ci:Pi;
             }
-            else if((P*5)+(carbs[Pi]*5)+(fat[Pi]*9)  > (protein[Ci]*5)+(C*5)+(fat[Ci]*9))
+            else if(Pcal  > Ccal)
             {
-                T=((P*5)+(carbs[Pi]*5)+(fat[Pi]*9)); Ti=Pi;
+                T=Pcal; Ti=Pi; //index of highest protien calorie
             } 
             else
             {
-                T=((protein[Ci]*5)+(C*5)+(fat[Ci]*9)); Ti=Ci;
+                T=Ccal; Ti=Ci;
             }
 
             //Total smllest calorie and indx
-            if((p*5)+(carbs[pi]*5)+(fat[pi]*9) == (protein[ci]*5)+(c*5)+(fat[ci]*9))
+            if(pcal == ccal)
             {
-                t=((p*5)+(carbs[pi]*5)+(fat[pi]*9)); ti=pi>ci?ci:pi;
-                
+                t=pcal; 
+                ti=pi>ci ?ci : pi;  //selecting smallest index 
+                Flag= pi>ci ?pi: ci;  //selecting the upper indx in flag to counter exception
             } 
-            else if((p*5)+(carbs[pi]*5)+(fat[pi]*9)  < (protein[ci]*5)+(c*5)+(fat[ci]*9))
+            else if(pcal  < ccal)
             {
-                t=((p*5)+(carbs[pi]*5)+(fat[pi]*9)); ti=pi;
+                t=pcal;  ti=pi;
             } 
             else
             {
-                t=((protein[ci]*5)+(c*5)+(fat[ci]*9)); ti=ci;
+                t=ccal;  ti=ci;
             }
-            //System.Console.WriteLine($"t'- {ti}");
 
             for(int i=0;i<dietPlans.Length;i++)
             {
                 int temp=0;
-                int max=0;
-                    for(int j=0;j<dietPlans[i].Length;j++)
-                    {   
-                        if(dietPlans[i][j]=='P')
-                            {max=max>Pi?max:Pi; temp=max;}//assigning max number to temp
-                        if(dietPlans[i][j]=='p')
-                            {max=max>pi?max:pi; temp=max;}
-                        if(dietPlans[i][j]=='C')
-                            {max=max>Ci?max:Ci; temp=max;}
-                        if(dietPlans[i][j]=='c')
-                            {max=max>ci?max:ci; temp=max;}
-                        if(dietPlans[i][j]=='F')
-                            {max=max>Fi?max:Fi; temp=max;}
-                        if(dietPlans[i][j]=='f')
-                            {max=max>fi?max:fi; temp=max;}
-                        if(dietPlans[i][j]=='T')
-                            {max=max>Ti?max:Ti; temp=max;}
-                        if(dietPlans[i][j]=='t')
-                            {max=max>ti?max:ti; temp=max;}
-                        // System.Console.WriteLine($"t {ti}");
-                        //System.Console.WriteLine($" temp {temp} max{max}");
-                    } 
-                    if(dietPlans[i].Contains("fT")==true) 
-                        temp=2;
-                    else if(dietPlans[i].Contains("cP")==true) 
-                        temp=5;
-                    else if(dietPlans[i].Contains("pCt")==true) 
-                        temp=3;
-                    else if(dietPlans[i].Contains("Ftc")==true) 
-                        temp=0;
-
+                if(dietPlans[i]=="") //handling empty string
+                    {res[i]=0;continue;}
+                if(dietPlans[i][0]=='P')
+                    temp=Pi;
+                if(dietPlans[i][0]=='p')
+                    temp=pi;
+                if(dietPlans[i][0]=='C')
+                    temp=Ci;
+                if(dietPlans[i][0]=='c')
+                    temp=ci;
+                if(dietPlans[i][0]=='F')
+                    temp=Fi;
+                if(dietPlans[i][0]=='f')
+                    temp=fi;
+                if(dietPlans[i][0]=='T')
+                    temp=Ti;
+                if(dietPlans[i][0]=='t')
+                {
+                    temp=ti;
+                    if(Flag>-1)    //Handling conflict condition
+                        for(int j=1;j<dietPlans[i].Length;j++)
+                        {
+                            if(fat[ti]==fat[Flag] && dietPlans[i][j]=='F')
+                                continue;
+                            if(carbs[ti]>carbs[Flag] && dietPlans[i][j]=='c')
+                                temp=Flag;
+                        }      
+                }
+                
                 res[i]=temp;
             }
             return res;
-
-            //System.Console.WriteLine($" maxT {T} ,indx {Ti}\nmin {t} indx {ti}");
-
 
             throw new NotImplementedException();
         }
